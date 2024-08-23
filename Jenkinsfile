@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone the repository
-                echo 'Checkout stage'
+                // Clone the repositoryy
+                echo 'Checkout stage this'
             }
         }
         
