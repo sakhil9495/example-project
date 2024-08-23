@@ -1,19 +1,15 @@
 pipeline {
     agent any
     
-    environment {
-        // Define any environment variables you need
-    }
-    
     stages {
-        stage('Checkout') {
+        stage("Checkout") {
             steps {
                 // Clone the repository
               echo "checkout stage"
             }
         }
         
-        stage('Build') {
+        stage("Build") {
             steps {
                 // Run build steps
               echo "Build stage"
@@ -21,30 +17,17 @@ pipeline {
             }
         }
         
-        stage('Test') {
+        stage("Test") {
             steps {
                 // Run unit tests
             }
         }
-        
-        stage('Deploy') {
+
+        stage("Deploy") {
             steps {
                 // Deploy application
                 echo "deploy stage"
             }
-        }
-    }
-    
-    post {
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed.'
-        }
-        always {
-            // Actions that should always be executed
-
         }
     }
 }
