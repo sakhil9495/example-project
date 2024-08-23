@@ -2,31 +2,31 @@ pipeline {
     agent any
     
     stages {
-        stage("Checkout") {
+        stage('Checkout') {
             steps {
                 // Clone the repository
-              echo "checkout stage"
+                echo 'Checkout stage'
             }
         }
         
-        stage("Build") {
+        stage('Build') {
             steps {
                 // Run build steps
-              echo "Build stage"
-                }
+                echo 'Build stage'
             }
         }
         
-        stage("Test") {
+        stage('Test') {
             steps {
                 // Run unit tests
+                echo 'Test stage'
             }
         }
 
-        stage("Deploy") {
+        stage('Deploy') {
             steps {
                 // Deploy application
-                echo "deploy stage"
+                echo 'Deploy stage'
             }
         }
     }
