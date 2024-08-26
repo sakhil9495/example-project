@@ -6,9 +6,7 @@ pipeline {
             steps {
                 // Clone the repositoryy
                 echo 'Checkout stage this'
-                dir('example-project') {
                     git branch: 'main', url: 'https://github.com/sakhil9495/example-project.git'
-                }
             }
         }
         
