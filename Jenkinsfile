@@ -2,24 +2,6 @@ pipeline {
     agent any
     
     stages {
-        stage('Install Node.js and npm') {
-             steps {
-                script {
-                    sh '''
-                    # Install Node.js and npm if not present
-                    if ! command -v node &> /dev/null; then
-                        curl -sL https://deb.nodesource.com/setup_18.x | bash -
-                        apt-get install -y nodejs
-                    fi
-                    
-                    # Install Angular CLI globally
-                    if ! command -v ng &> /dev/null; then
-                        npm install -g @angular/cli
-                    fi
-                    '''
-                }
-            }
-        }
       
         stage('Checkout') {
             steps {
@@ -28,25 +10,22 @@ pipeline {
                     git branch: 'main', url: 'https://github.com/sakhil9495/example-project.git'
             }
         }
-
-      stage('Install Dependencies') {
+      
+        stage('Build Angular Project') {
             steps {
                 script {
-                    // Install Node.js dependencies
-                    sh 'npm install'
+                    // Use Docker to run Node.js and Angular CLI
+                    docker.image('node:18-alpine').inside {
+                        // Install Angular CLI globally
+                        sh 'npm install -g @angular/cli'
+                        // Install project dependencies and build the Angular project
+                        sh 'npm install'
+                        sh 'ng build'
+                    }
                 }
             }
         }
 
-      
-        stage('Build') {
-            steps {
-                // Run build steps
-                steps {
-                sh 'ng build'
-            }
-            }
-        }
         
         stage('Test') {
             steps {
