@@ -12,19 +12,13 @@ pipeline {
       
       stage('Install Dependencies') {
             steps {
-                script {
-                    // Install Angular CLI
-                    //sh 'npm install'
-                }
+                echo 'dependencies  stage'
             }
         }
         
         stage('Build') {
             steps {
-                script {
-                    // Install Angular CLI
-                    //sh 'ng build'
-                }
+                 echo 'Build  stage'
             }
         }
         
