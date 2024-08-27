@@ -1,7 +1,26 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'alpine:latest'  // Use a base Alpine image for more control
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Allow Docker within Docker
+        }
+    }
     
     stages {
+      stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install Node.js and npm
+                    sh '''
+                    apk update
+                    apk add --no-cache nodejs npm
+                    npm --version
+                    '''
+                    // Install Angular CLI globally
+                    sh 'npm install -g @angular/cli'
+                }
+            }
+        }
       
         stage('Checkout') {
             steps {
@@ -11,21 +30,11 @@ pipeline {
             }
         }
       
-        stage('Build Angular Project') {
+        stage('Build') {
             steps {
-                script {
-                    // Run commands inside a Docker container with Node.js
-                    sh '''
-                    docker run --rm \
-                        -v $(pwd):/usr/src/app \
-                        -w /usr/src/app \
-                        node:18-alpine sh -c "
-                        npm install -g @angular/cli &&
-                        npm install &&
-                        ng build --prod
-                        "
-                    '''
-                }
+                // Install project dependencies and build the Angular project
+                sh 'npm install'
+                sh 'ng build'  // Build the project for production
             }
         }
 
