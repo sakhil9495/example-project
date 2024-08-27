@@ -1,7 +1,7 @@
 pipeline {
     agent any
   environment {
-        GIT_REPO = 'https://github.com/your-repo/angular-project.git'  // Replace with your repository
+        GIT_REPO = 'https://github.com/sakhil9495/example-project.git'  // Replace with your repository
         APACHE_DIR = '/var/www/build'  // Apache build directory on the host
     }
     
