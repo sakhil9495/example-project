@@ -14,14 +14,17 @@ pipeline {
         stage('Build Angular Project') {
             steps {
                 script {
-                    // Use Docker to run Node.js and Angular CLI
-                    docker.image('node:18-alpine').inside {
-                        // Install Angular CLI globally
-                        sh 'npm install -g @angular/cli'
-                        // Install project dependencies and build the Angular project
-                        sh 'npm install'
-                        sh 'ng build'
-                    }
+                    // Run commands inside a Docker container with Node.js
+                    sh '''
+                    docker run --rm \
+                        -v $(pwd):/usr/src/app \
+                        -w /usr/src/app \
+                        node:18-alpine sh -c "
+                        npm install -g @angular/cli &&
+                        npm install &&
+                        ng build --prod
+                        "
+                    '''
                 }
             }
         }
