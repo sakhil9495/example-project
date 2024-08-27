@@ -9,16 +9,11 @@ pipeline {
                     git branch: 'main', url: 'https://github.com/sakhil9495/example-project.git'
             }
         }
-      
-      stage('Install Dependencies') {
-            steps {
-                echo 'dependencies  stage'
-            }
-        }
         
         stage('Build') {
             steps {
-                 echo 'Build  stage'
+                // Run build steps
+                echo 'Build stage'
             }
         }
         
