@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'
+            args '-u root' // Run as root user if you need to install additional packages
+        }
+    }
     
     stages {
         stage('Checkout') {
@@ -23,7 +28,9 @@ pipeline {
         stage('Build') {
             steps {
                 // Run build steps
-                echo 'Build stage'
+                steps {
+                sh 'ng build'
+            }
             }
         }
         
