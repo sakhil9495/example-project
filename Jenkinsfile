@@ -9,11 +9,22 @@ pipeline {
                     git branch: 'main', url: 'https://github.com/sakhil9495/example-project.git'
             }
         }
+      
+      stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install Angular CLI
+                    sh 'npm install -g @angular/cli'
+                }
+            }
+        }
         
         stage('Build') {
             steps {
-                // Run build steps
-                echo 'Build stage'
+                script {
+                    // Install Angular CLI
+                    sh 'ng build'
+                }
             }
         }
         
