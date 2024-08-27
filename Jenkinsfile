@@ -9,7 +9,17 @@ pipeline {
                     git branch: 'main', url: 'https://github.com/sakhil9495/example-project.git'
             }
         }
-        
+
+      stage('Install Dependencies') {
+            steps {
+                script {
+                    // Install Node.js dependencies
+                    sh 'npm install'
+                }
+            }
+        }
+
+      
         stage('Build') {
             steps {
                 // Run build steps
