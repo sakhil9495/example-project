@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     // Install Angular CLI
-                    sh 'npm install -g @angular/cli'
+                    sh 'npm install'
                 }
             }
         }
