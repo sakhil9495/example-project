@@ -1,12 +1,26 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'
-            args '-u root' // Run as root user if you need to install additional packages
-        }
-    }
+    agent any
     
     stages {
+        stage('Install Node.js and npm') {
+            steps {
+                script {
+                    sh '''
+                    # Install Node.js and npm if not present
+                    if ! command -v node &> /dev/null; then
+                        curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+                        sudo apt-get install -y nodejs
+                    fi
+                    
+                    # Install Angular CLI globally
+                    if ! command -v ng &> /dev/null; then
+                        sudo npm install -g @angular/cli
+                    fi
+                    '''
+                }
+            }
+        }
+      
         stage('Checkout') {
             steps {
                 // Clone the repositoryy
