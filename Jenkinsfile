@@ -1,43 +1,25 @@
 pipeline {
-    agent {
-        docker {
-            image 'alpine:latest'  // Use a base Alpine image for more control
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Allow Docker within Docker
-        }
+    agent any
+  environment {
+        GIT_REPO = 'https://github.com/your-repo/angular-project.git'  // Replace with your repository
+        APACHE_DIR = '/var/www/build'  // Apache build directory on the host
     }
     
     stages {
-      stage('Install Dependencies') {
-            steps {
-                script {
-                    // Install Node.js and npm
-                    sh '''
-                    apk update
-                    apk add --no-cache nodejs npm
-                    npm --version
-                    '''
-                    // Install Angular CLI globally
-                    sh 'npm install -g @angular/cli'
-                }
-            }
-        }
-      
         stage('Checkout') {
             steps {
                 // Clone the repositoryy
                 echo 'Checkout stage this'
-                    git branch: 'main', url: 'https://github.com/sakhil9495/example-project.git'
+                    git branch: 'main', url: "${GIT_REPO}"
             }
         }
-      
+        
         stage('Build') {
             steps {
-                // Install project dependencies and build the Angular project
-                sh 'npm install'
-                sh 'ng build'  // Build the project for production
+                // Run build steps
+                echo 'Build stage'
             }
         }
-
         
         stage('Test') {
             steps {
@@ -50,6 +32,16 @@ pipeline {
             steps {
                 // Deploy application
                 echo 'Deploy stage'
+              script {
+                    // Assume the container ID is known or retrieved dynamically
+                    def containerId = '4a4d0a561083'
+                    
+                    // Copy files from Docker container to Jenkins workspace
+                    sh "sudo docker cp ${containerId}:/var/jenkins_home/workspace/Demo_Project_main tempfolder"
+                    
+                    // Move files from Jenkins workspace to Apache directory
+                    sh "sudo mv tempfolder/Demo_Project_main/* ${APACHE_DIR}/"
+                }
             }
         }
     }
